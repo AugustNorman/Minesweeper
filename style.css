@@ -1,0 +1,112 @@
+#minesweeper-container {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(8, 30px);
+}
+
+#timer {
+  text-align: center;
+  font-family: segment;
+  color: red;
+  font-size: 40px;
+}
+
+@font-face {
+  font-family: segment;
+  src: url(assets/7segment.woff) format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-image: url(assets/Minesweeper_unopened_square.svg);
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.flag {
+  background-image: url('assets/Minesweeper_flag.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.mine {
+  background-image: url('assets/Minesweeper_mine.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-0 {
+  background-image: url('assets/Minesweeper_0.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-1 {
+  background-image: url('assets/Minesweeper_1.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-2 {
+  background-image: url('assets/Minesweeper_2.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-3 {
+  background-image: url('assets/Minesweeper_3.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-4 {
+  background-image: url('assets/Minesweeper_4.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-5 {
+  background-image: url('assets/Minesweeper_5.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-6 {
+  background-image: url('assets/Minesweeper_6.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-7 {
+  background-image: url('assets/Minesweeper_7.svg');
+  background-size: cover;
+  color: transparent;
+}
+
+.cell.number-8 {
+  background-image: url('assets/Minesweeper_8.svg');
+  background-size: cover;
+  color: transparent;
+}
