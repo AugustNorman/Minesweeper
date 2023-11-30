@@ -6,6 +6,14 @@ var sizeConditionChecker = false;
 var timerInterval;
 var seconds = 0;
 var move = 0
+var gameCount = 0
+var flagCount = 0
+
+// Set the board size
+var rows = 8;
+var columns = 10;
+var mines = 10;
+var mineCount = mines
 
 function generateBoard(rows, cols, mines) {
   // Generate empty board
@@ -102,28 +110,42 @@ function renderBoard() {
   }
 }
 
-function handleFlagPlacement(event) {
-  if (gameWon || gameLost) {
-    return; // Stop further input if the game is won or lost
+function showGameOverPopup() {
+  setTimeout(function () {
+  if (gameLost) {
+    const playAgain = confirm("You lost! Do you want to play again?")
+    if (playAgain) {
+      resetGame()
+    } else {
+      return;
+    }
+  } else if (gameWon) {
+    const playAgain = confirm("You won! Do you want to play again?")
+    if (playAgain) {
+      resetGame()
+    } else {
+      return;
+    }
   }
-  const row = parseInt(event.target.dataset.row);
-  const col = parseInt(event.target.dataset.col);
+  }, 1000);
+}
 
-  if (isNaN(row) || isNaN(col)) {
-    console.log("Error: Invalid input");
-    return;
-  }
+function resetGame() {
+  gameWon = false
+  gameLost = false
+  board = []
+  outputBoard = []
+  seconds = 0
+  move = 0
+  mineCount = mines
+  flagCount = 0
 
-  if (outputBoard[row][col] === "X") {
-    outputBoard[row][col] = "F";
-  } else if (outputBoard[row][col] === "F") {
-    outputBoard[row][col] = "X";
-  } else {
-    console.log("Error: Square is already revealed");
-    return;
-  }
-
-  renderBoard();
+  generateBoard(rows, columns, mines)
+  userBoard(rows, columns)
+  renderBoard()
+  updateTimerDisplay()
+  updateMineCountDisplay()
+  gameCount++
 }
 
 function handleCellClick(event) {
@@ -181,8 +203,8 @@ function handleCellClick(event) {
       if (xCount === mines) {
         console.clear();
         console.table(outputBoard);
-        alert("You won! Congratulations");
         gameWon = true;
+        showGameOverPopup()
       }
     } else if (board[row][col] === "mine") {
       gameLost = true;
@@ -190,28 +212,50 @@ function handleCellClick(event) {
       console.clear();
       console.table(board);
       console.log("Mine! You lost :(");
+      showGameOverPopup()
     } else if (xCount === mines) {
       console.clear();
       console.table(outputBoard);
-      alert("You won! Congratulations");
       gameWon = true;
+      showGameOverPopup()
     } else {
       console.clear();
       console.table(outputBoard);
-    }
-  } else if (event.button === 2) {
-    if (outputBoard[row][col] === "F") {
-      outputBoard[row][col] = "X";
-    } else if (outputBoard[row][col] === "X") {
-      outputBoard[row][col] = "F";
-      console.clear();
-      console.table(outputBoard);
-    } else {
-      console.log("Error: Square is already revealed");
-      return;
     }
   } else {
     console.log("Error: Invalid click input");
+    return;
+  }
+
+  renderBoard();
+}
+
+function handleFlagPlacement(event) {
+  if (gameWon || gameLost) {
+    return; // Stop further input if the game is won or lost
+  }
+  const row = parseInt(event.target.dataset.row);
+  const col = parseInt(event.target.dataset.col);
+
+  if (isNaN(row) || isNaN(col)) {
+    console.log("Error: Invalid input");
+    return;
+  }
+
+  if (outputBoard[row][col] === "X") {
+    outputBoard[row][col] = "F";
+    console.clear()
+    console.table(outputBoard)
+    flagCount++
+    updateMineCountDisplay()
+  } else if (outputBoard[row][col] === "F") {
+    outputBoard[row][col] = "X";
+    console.clear()
+    console.table(outputBoard)
+    flagCount--
+    updateMineCountDisplay()
+  } else {
+    console.log("Error: Square is already revealed");
     return;
   }
 
@@ -242,13 +286,23 @@ function startTimer() {
  }, 1000);
 }
 
-// Set the board size
-var rows = 8;
-var columns = 10;
-var mines = 10;
+function updateMineCountDisplay() {
+  // Flag counting, it checks every square, and for each square with a flag we decrement the count of mines
+  mineCount = (mines - flagCount)
+  htmlMineCountDisplay()
+}
+
+function htmlMineCountDisplay() {
+  // Update the display of the mine count on the HTML page
+  const mineCountDisplay = document.getElementById('mine-count');
+  const formattedMineCount = String(mineCount).padStart(2, '0');
+  mineCountDisplay.textContent = formattedMineCount;
+  console.log(mineCountDisplay)
+}
 
 generateBoard(rows, columns, mines);
 userBoard(rows, columns);
+updateMineCountDisplay()
 renderBoard();
 
 // Add event listener for cell clicks
