@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <title>Minesweeper</title>
   <link rel="icon" type="image/x-icon" href="../../assets/Minesweeper_flag.svg">
-  <style>
-    body {
-      background-color: lightgray;
-      border: 10px solid gray
-    }
-  </style>
 </head>
 <body>
   <div class="game-wrapper">
@@ -23,7 +18,7 @@
       </div>
       <div class='custom-form'id="customFormContainer">
       <h2>Create Custom Board</h2>
-      <form id="customBoardForm" action="../Custom/index.html" method="GET">
+      <form id="customBoardForm" action="index.html" method="GET">
         <label for="rows">Rows:</label>
         <input type="number" id="rows" name="rows" min="3" max="100" required>
         <label for="columns">Columns:</label>
@@ -35,15 +30,22 @@
       </div>
     </div>
     <div id="minesweeper-container"></div>
-    <a href="../../index.html">Beginner</a>
+    <a href="../Intermediate/index.html">Intermediate</a>
     <a href="../Expert/index.html">Expert</a>
-    </div>
   </div>
   <script>
-    // Set the board size
-    var rows = 14;
-    var columns = 18;
-    var mines = 40;
+    var urlParams = new URLSearchParams(window.location.search);
+    let rows = parseInt(urlParams.get('rows'));
+    let columns = parseInt(urlParams.get('columns'));
+    let mines = parseInt(urlParams.get('mines'));
+    const viewWidth = 50;
+    const cellSize = viewWidth / columns
+    console.log("Updating css styles...")
+    document.documentElement.style.setProperty('--cell-size', cellSize + 'vw');
+    document.documentElement.style.setProperty('--columns', columns);
+    document.documentElement.style.setProperty('--rows', rows);
+    rows++; columns++
+    console.log(rows, columns, mines, --rows, --columns);
     document.getElementById('collapsible-arrow').addEventListener('click', function() {
       var customFormContainer = document.getElementById('customFormContainer');
       var arrow = document.getElementById('collapsible-arrow');

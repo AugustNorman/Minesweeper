@@ -1,19 +1,14 @@
-var gameWon = false;
-var gameLost = false;
-var board = [];
-var outputBoard = [];
-var sizeConditionChecker = false;
-var timerInterval;
-var seconds = 0;
-var move = 0
-var gameCount = 0
-var flagCount = 0
+let gameWon = false;
+let gameLost = false;
+let board = [];
+let outputBoard = [];
+let timerInterval;
+let seconds = 0;
+let move = 0;
+let gameCount = 0;
+let flagCount = 0;
+let mineCount = mines;
 
-// Set the board size
-var rows = 8;
-var columns = 10;
-var mines = 10;
-var mineCount = mines
 
 function generateBoard(rows, cols, mines) {
   // Generate empty board
@@ -86,6 +81,7 @@ function renderBoard() {
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < columns; j++) {
+      //console.log('Rendering cell at:', i, j, 'with rows and columns:', rows, columns);
       const cell = document.createElement('div');
       cell.classList.add('cell');
       cell.dataset.row = i;
@@ -166,14 +162,20 @@ function handleCellClick(event) {
       console.log("Square is flagged and cannot be guessed");
       return;
     }
-
+    
     if (move === 1) {
-      // If it is the first move, regenerate the board until the cell clicked is not a mine. We increment move at the start of the function
+    // If it is the first move, regenerate the board until the cell clicked is not a mine. We increment move at the start of the handleCellClicked function. To avoid an infinite loop, we stop after 50 generations
+      var n = 0;
       while (board[row][col] !== 0) {
+        if (n > 50) {
+          break
+        } else {
         board = []
         outputBoard = []
         generateBoard(rows, columns, mines)
         userBoard(rows, columns)
+        n++
+        }
       }
       startTimer()
     }
@@ -297,7 +299,6 @@ function htmlMineCountDisplay() {
   const mineCountDisplay = document.getElementById('mine-count');
   const formattedMineCount = String(mineCount).padStart(2, '0');
   mineCountDisplay.textContent = formattedMineCount;
-  console.log(mineCountDisplay)
 }
 
 generateBoard(rows, columns, mines);

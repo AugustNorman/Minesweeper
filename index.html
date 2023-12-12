@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <title>Minesweeper</title>
+  <link rel="icon" type="image/x-icon" href="assets/Minesweeper_flag.svg">
+  <style>
+    body {
+      background-color: lightgray;
+      border: 10px solid gray; 
+      padding: ;
+    }
+  </style>
 </head>
+
 <body>
   <div class="game-wrapper">
     <div class="game-container">
       <div id="mine-count">00</div>
       <div id="timer">000</div>
+      <div class="arrow" id="collapsible-arrow">
+        <img src="assets/Custom_board_arrow.svg" alt="Arrow">
+      </div>
+      <div class='custom-form'id="customFormContainer">
+      <h2>Create Custom Board</h2>
+      <form id="customBoardForm" action="AltBoards/Custom/index.html" method="GET">
+        <label for="rows">Rows:</label>
+        <input type="number" id="rows" name="rows" min="3" max="100" required>
+        <label for="columns">Columns:</label>
+        <input type="number" id="columns" name="columns" min="3" max="100" required>
+        <label for="mines">Mines:</label>
+        <input type="number" id="mines" name="mines" min="1" required>
+        <button type="submit">Create Board</button>
+      </form>
+      </div>
     </div>
     <div id="minesweeper-container"></div>
     <a href="AltBoards/Intermediate/index.html">Intermediate</a>
     <a href="AltBoards/Expert/index.html">Expert</a>
   </div>
+  <script>
+    // Set the board size
+    var rows = 8;
+    var columns = 10;
+    var mines = 10;
+    document.getElementById('collapsible-arrow').addEventListener('click', function() {
+      var customFormContainer = document.getElementById('customFormContainer');
+      var arrow = document.getElementById('collapsible-arrow');
+      customFormContainer.classList.toggle('collapsed');
+      arrow.classList.toggle('collapsed');
+    });
+  </script>
   <script src="script.js"></script>
 </body>
