@@ -233,7 +233,7 @@ function handleCellClick(event) {
 }
 
 function handleFlagPlacement(event) {
-  if (gameWon || gameLost) {
+  if (gameWon || gameLost || move === 0) {
     return; // Stop further input if the game is won or lost
   }
   const row = parseInt(event.target.dataset.row);
